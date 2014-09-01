@@ -42,11 +42,9 @@ allprojects {
         compile fileTree(dir: 'lib', includes: ['*.war'])
     }
 
-
     configurations {
         all*.exclude module: "slf4j-log4j12"
     }
-
 
     test {
         testLogging.showStandardStreams = true
@@ -84,6 +82,11 @@ allprojects {
       baseImage "jruby/jruby"
       maintainer 'm.maatkamp@gmail.com'
     }
+
+    // https://github.com/gradle/gradle/pull/292
+    task wrapper(type: Wrapper) {
+      gradleVersion = '1.6'
+    }
 }
 
 project("project:modules") {
@@ -118,7 +121,7 @@ project("project:modules:jruby") {
     }
 
     mainClassName = "jruby.JRubyApplicationStarter"
-    applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,address=localhost:7001,server=y,suspend=n"]
+    // applicationDefaultJvmArgs = ["-agentlib:jdwp=transport=dt_socket,address=localhost:7001,server=y,suspend=n"]
 
     distDocker {
         exposePort 9126
